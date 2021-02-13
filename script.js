@@ -39,6 +39,7 @@ function operate(primary, secondary, operator) {
 function displayScreen(text) {
     if (screen.lastChild) screen.removeChild(screen.lastChild);
     const nums = document.createElement("p");
+    nums.setAttribute("id", "display")
     nums.textContent = text;
     screen.appendChild(nums);
 }
@@ -48,7 +49,7 @@ let primary = "";
 let operator = "";
 let secondary = "";
 let primarySelect = true;
-const symbols = {  
+const symbols = {
     multiply: "×",
     add: "+",
     subtract: "−",
@@ -85,7 +86,7 @@ operators.forEach((button) => {
         }
         operator = button.id;
         displayScreen(symbols[operator]); //finds symbol for the id
-        primarySelect = false; 
+        primarySelect = false;
     });
 
 });
@@ -112,7 +113,7 @@ deciBtn.addEventListener("click", () => {
     if (primarySelect === true && primary.includes(".")) return; //only allows one instance of decimal
     if (primarySelect === false && secondary.includes(".")) return;
     if (primarySelect === true) {
-        primary += symbols[deciBtn.id]; 
+        primary += symbols[deciBtn.id];
         displayScreen(primary);
     } else {
         secondary += symbols[deciBtn.id];
@@ -123,15 +124,32 @@ deciBtn.addEventListener("click", () => {
 //event listener for backspace
 const backBtn = document.querySelector("#backspace")
 backBtn.addEventListener("click", () => {
-    if (!(operator === "") && secondary === ""){ // allows user to backspace operator
+    if (!(operator === "") && secondary === "") { // allows user to backspace operator
         operator = "";
         displayScreen("");
     }
     if (primarySelect === true) {
-        primary = primary.slice(0, -1); 
+        primary = primary.slice(0, -1);
         displayScreen(primary);
     } else {
         secondary = secondary.slice(0, -1);
         displayScreen(secondary);
     }
 });
+
+//event listener for solar panel
+const solarPanel = document.querySelector("#panel")
+solarPanel.addEventListener("mouseenter", () => {
+    if (screen.lastChild) {
+        const display = document.getElementById("display");
+        display.classList.toggle("fade");
+    }
+});
+
+solarPanel.addEventListener("mouseleave", () => {
+    if (screen.lastChild) {
+        const display = document.getElementById("display");
+        display.classList.toggle("fade");
+    }
+});
+
